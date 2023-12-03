@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Journaler</title>
+  </head>
+  <body>
+    <form method="post" action="{{ url_for('api_create_entry') }}">
+      <input type="text" name="new-entry-content" id="new-entry-content" />
+      <button type="submit">Create new entry</button>
+    </form>
+    {% for entry in entries %}
+    <a href="{{ url_for('entry', entry_id=entry.id) }}"
+      ><h2>{{ entry.id }}</h2></a
+    >
+    <p>{{ entry.content }}</p>
+    {% endfor %}
+  </body>
+</html>
