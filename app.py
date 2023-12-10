@@ -26,9 +26,8 @@ def api_create_entry():
 
 @app.route("/api/edit-entry", methods=["POST"])
 def api_edit_entry():
-    req_json = request.get_json()
-    entry_id_to_edit = req_json.get('id')
-    edit_entry_content = req_json.get('content')
+    entry_id_to_edit = request.form['id']
+    edit_entry_content = request.form['content']
 
     entry_to_edit = JournalEntry.query.get(entry_id_to_edit)
     entry_to_edit.content = edit_entry_content

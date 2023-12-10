@@ -25,22 +25,16 @@
 
         if (!newContent) return;
 
+        let data = new FormData();
+        data.append('id', '{{ entry.id }}');
+        data.append('content', newContent);
         fetch('{{ url_for("api_edit_entry")}}', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            id: '{{ entry.id }}',
-            content: newContent
-          })
+          body: data
         })
           .then((response) => {
-            if (response.ok) {
-              console.log('Entry edited successfully');
+            if (response.redirected) {
               window.location.href = response.url;
-            } else {
-              console.error('Failed to edit entry');
             }
           })
           .catch((error) => {
