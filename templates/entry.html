@@ -6,6 +6,7 @@
     <title>Journaler</title>
   </head>
   <body>
+    <h1>Journaler</h1>
     <a href="{{ url_for('index') }}">Back to All</a>
     <h2>{{ entry.id }}</h2>
     <p>{{ entry.content }}</p>
@@ -28,7 +29,7 @@
         let data = new FormData();
         data.append('id', '{{ entry.id }}');
         data.append('content', newContent);
-        fetch('{{ url_for("api_edit_entry")}}', {
+        fetch('{{ url_for("api_edit_entry") }}', {
           method: 'POST',
           body: data
         })
