@@ -8,24 +8,45 @@
   <body>
     <a href="{{ url_for('index') }}">Back to All</a>
     <h2>{{ entry.id }}</h2>
-    <form method="post" action="{{ url_for('api_edit_entry') }}">
-      <input type="hidden" value="{{ entry.id }}" name="entry-id-to-edit" />
-      <textarea
-        name="edit-entry-content"
-        id="edit-entry-content"
-        rows="4"
-        cols="50"
-      >
-{{ entry.content}}</textarea
-      >
-      <br />
-      <button type="submit">Save changes</button>
-    </form>
+    <p>{{ entry.content }}</p>
+    <button id="edit-entry-button">Edit entry</button>
     <br />
     <br />
     <form method="post" action="{{ url_for('api_delete_entry') }}">
       <input type="hidden" value="{{ entry.id }}" name="entry-id-to-delete" />
       <button type="submit">Delete</button>
     </form>
+    <script type="text/javascript">
+      const editEntryButton = document.getElementById('edit-entry-button');
+      editEntryButton.addEventListener('click', () => editEntry());
+
+      function editEntry() {
+        const newContent = window.prompt('Edit entry', '{{ entry.content }}');
+
+        if (!newContent) return;
+
+        fetch('/api/edit-entry', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: '{{ entry.id }}',
+            content: newContent
+          })
+        })
+          .then((response) => {
+            if (response.ok) {
+              console.log('Entry edited successfully');
+              window.location.href = response.url;
+            } else {
+              console.error('Failed to edit entry');
+            }
+          })
+          .catch((error) => {
+            console.error('Network error:', error);
+          });
+      }
+    </script>
   </body>
 </html>
